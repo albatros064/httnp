@@ -4,9 +4,6 @@
 
 namespace HttpServer {
 
-HttpHeader::HttpHeader() {
-}
-
 HttpHeader::HttpHeader(string source) {
 	populate(source);
 }

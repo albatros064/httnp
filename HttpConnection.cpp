@@ -8,6 +8,8 @@
 #include "HttpConnection.h"
 #include "HttpHeader.h"
 #include "HttpServer.h"
+#include "HttpRequest.h"
+#include "HttpResponse.h"
 
 namespace HttpServer {
 
@@ -15,8 +17,8 @@ using std::string;
 using std::cout;
 using std::stringstream;
 
-HttpConnection::HttpConnection(ConferenceHttpServer *httpServer, ConferenceManager *conferenceManager, int socket):
-  server(httpServer), clientSocket(socket) {
+HttpConnection::HttpConnection(HttpServer *httpServer, int socket):
+  server(httpServer),clientSocket(socket) {
 }
 HttpConnection::~HttpConnection() {
 	if (clientSocket >= 0) {
@@ -27,7 +29,7 @@ void HttpConnection::handleRequest() {
 	while (true) {
 		try {
 			request = new HttpRequest(this);
-			request.parse();
+			request->parse();
 
 			response = new HttpResponse;
 
@@ -55,14 +57,16 @@ void HttpConnection::handleRequest() {
 	}
 }
 
-int HttpConnection::readLine(sting *outLine, char *buffer, int max) {
+int HttpConnection::readLine(string *outLine, char *buffer, int max) {
 	if (!buffer) {
-		buffer = malloc(HTTP_REQUEST_LINE_SIZE);
+		buffer = (char *) malloc(HTTP_REQUEST_LINE_SIZE);
 		max = HTTP_REQUEST_LINE_SIZE;
 		if (!buffer) {
 			throw 500;
 		}
 	}
+
+	int readResult;
 
 	outLine->clear();
 	do {
@@ -96,7 +100,7 @@ int HttpConnection::readLine(char *buffer, int max) {
 
 int HttpConnection::readString(string *outString, int count) {
 	outString->clear();
-	char *buffer = malloc(count);
+	char *buffer = (char *) malloc(count);
 	if (!buffer) {
 		throw 500;
 	}

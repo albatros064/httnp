@@ -9,17 +9,20 @@ namespace HttpServer {
 using std::map;
 using std::string;
 
+class HttpHeader;
+
 class HttpResponse {
   public:
 	HttpResponse();
 	~HttpResponse();
 
-	void setCode(int);
-	void setCodeText(string);
-	void setProtocol(string);
+	void setCode    (int    code ) { this->code     = code;  }
+	void setCodeText(string text ) { this->codeText = text;  }
+	void setProtocol(string proto) { this->protocol = proto; }
+	void setBody    (string body ) { this->body     = body;  }
+
 	void setHeader(string,string);
 	void removeHeader(string);
-	void setBody(string);
 
 	string render();
   private:

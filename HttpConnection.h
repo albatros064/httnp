@@ -37,6 +37,8 @@ class HttpConnection {
 	int readString(string*,int);
 	int readString(char*,int);
 
+	int writeString(string);
+
 	friend class HttpRequest;
 };
 

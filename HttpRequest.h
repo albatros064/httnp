@@ -17,6 +17,8 @@ class HttpRequest {
 	HttpRequest(HttpConnection*);
 	~HttpRequest();
 
+	void parse();
+
 	string getMethod  () { return method;   }
 	string getResource() { return resource; }
 	string getProtocol() { return protocol; }
@@ -35,7 +37,7 @@ class HttpRequest {
 
 	HttpConnection *connection;
 
-	void parse();
+	void parseRequestLine(string);
 };
 
 } // namespace
