@@ -3,9 +3,9 @@
 #include <iterator>
 #include <vector>
 
-#include "HttpRequest.h"
 #include "HttpConnection.h"
 #include "HttpHeader.h"
+#include "HttpRequest.h"
 
 namespace HttpServer {
 
@@ -15,31 +15,12 @@ using std::vector;
 using std::istringstream;
 using std::istream_iterator;
 
-HttpRequest::HttpRequest(HttpConnection *conn):
-  connection(conn) {
+HttpRequest::HttpRequest():
+  connection(0) {
 }
 
-HttpRequest::~HttpRequest() {
-	for (
-		map<string,HttpHeader*>::iterator i = headers.begin();
-		i != headers.end();
-		i++
-	) {
-		delete i->second;
-	}
-}
-
-bool HttpRequest::hasHeader(string header) {
-	return headers.count(header) > 0;
-}
-string HttpRequest::getHeader(string header) {
-	if (hasHeader(header)) {
-		return headers[header]->getContent();
-	}
-	return "";
-}
-
-void HttpRequest::parse() {
+void HttpRequest::parse(HttpConnection *conn) {
+	connection = conn;
 	int readResult;
 	HttpHeader *newHeader;
 	string line;

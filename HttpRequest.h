@@ -4,6 +4,8 @@
 #include <string>
 #include <map>
 
+#include "HttpMessage.h"
+
 namespace HttpServer {
 
 using std::string;
@@ -12,32 +14,26 @@ using std::map;
 class HttpConnection;
 class HttpHeader;
 
-class HttpRequest {
+class HttpRequest : public HttpMessage {
   public:
-	HttpRequest(HttpConnection*);
-	~HttpRequest();
+	HttpRequest();
+	~HttpRequest() {}
 
-	void parse();
+	void parse(HttpConnection*);
 
 	string getMethod  () { return method;   }
 	string getResource() { return resource; }
-	string getProtocol() { return protocol; }
-	string getBody    () { return body;     }
-
-	bool   hasHeader(string);
-	string getHeader(string);
-
 
   private:
+  protected:
 	string method;
 	string resource;
-	string protocol;
-	string body;
-	map<string,HttpHeader*> headers;
 
 	HttpConnection *connection;
 
 	void parseRequestLine(string);
+
+	virtual string renderFirstLine();
 };
 
 } // namespace

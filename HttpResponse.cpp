@@ -1,35 +1,22 @@
+#include <sstream>
+
 #include "HttpResponse.h"
 #include "HttpHeader.h"
 
 namespace HttpServer {
 
-HttpResponse::HttpResponse() {}
-HttpResponse::~HttpResponse() {
-	for (
-		map<string,HttpHeader*>::iterator i = headers.begin();
-		i != headers.end();
-		i++
-	) {
-		delete i->second;
-	}
+using std::stringstream;
+
+HttpResponse::HttpResponse() {
+	protocol = "HTTP/1.1";
+	code = 200;
+	codeText = "OK";
 }
 
-void HttpResponse::setHeader(string name, string content) {
-	HttpHeader *newHeader = new HttpHeader(name, content);
-	string internalName = newHeader->getInternalName();
-
-	if (headers.count(internalName) > 0) {
-		delete headers[internalName];
-	}
-
-	headers[internalName] = newHeader;
-}
-
-void HttpResponse::removeHeader(string name) {
-}
-
-string HttpResponse::render() {
-	return "";
+string HttpResponse::renderFirstLine() {
+	stringstream outStream;
+	outStream << protocol << " " << code << " " << codeText;
+	return outStream.str();
 }
 
 } // namespace

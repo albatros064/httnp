@@ -1,5 +1,5 @@
 OUTFILE = httnp
-OBJECTS = Main.o HttpServer.o HttpConnection.o HttpRequest.o HttpResponse.o HttpHeader.o
+OBJECTS = Main.o HttpServer.o HttpConnection.o HttpRequest.o HttpResponse.o HttpHeader.o HttpMessage.o
 
 CXX = g++
 CPPFLAGS = -Wall -O2 -std=c++0x -pthread
@@ -11,8 +11,8 @@ $(OUTFILE): $(OBJECTS)
 Main.o: HttpServer.h
 HttpServer.o: HttpServer.h HttpConnection.h
 HttpConnection.o: HttpServer.h HttpConnection.h HttpHeader.h
-HttpRequest.o: HttpConnection.h HttpRequest.h HttpHeader.h
-HttpResponse.o: HttpConnection.h HttpResponse.h HttpHeader.h
+HttpRequest.o: HttpConnection.h HttpRequest.h HttpMessage.h HttpHeader.h
+HttpResponse.o: HttpConnection.h HttpResponse.h HttpMessage.h HttpHeader.h
 
 .PHONY: clean install
 clean:

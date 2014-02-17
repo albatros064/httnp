@@ -28,8 +28,8 @@ HttpConnection::~HttpConnection() {
 void HttpConnection::handleRequest() {
 	while (true) {
 		try {
-			request = new HttpRequest(this);
-			request->parse();
+			request = new HttpRequest;
+			request->parse(this);
 
 			response = new HttpResponse;
 

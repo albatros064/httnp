@@ -16,17 +16,15 @@ class HttpHeader {
 
 	void populate(string);
 
-	string getInternalName() { return internalHeaderName; }
 	string getName        () { return headerName;         }
 	string getContent     () { return headerContent;      }
 
-  private:
-	string internalHeaderName;
+	static string internalizeName(string);
 
+  private:
 	string headerName;
 	string headerContent;
 
-	void internalizeName();
 };
 
 } // namespace

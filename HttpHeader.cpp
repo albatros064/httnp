@@ -9,8 +9,8 @@ HttpHeader::HttpHeader(string source) {
 }
 
 HttpHeader::HttpHeader(string name, string content):
-  headerName(name),headerContent(content) {
-  	internalizeName();
+  headerContent(content) {
+  	headerName = internalizeName(name);
 }
 
 void HttpHeader::populate(string source) {
